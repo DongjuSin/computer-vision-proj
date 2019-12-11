@@ -36,7 +36,6 @@ class BaseNet(nn.Module):
         self.base_size = base_size
         self.crop_size = crop_size
         # copying modules from pretrained models
-        print('a')
         if backbone == 'resnet50':
             self.pretrained = resnet.resnet50(pretrained=True, dilated=dilated,
                                               norm_layer=norm_layer, root=root)
@@ -52,12 +51,11 @@ class BaseNet(nn.Module):
         self._up_kwargs = up_kwargs
         self.backbone = backbone
         # shape stream
-        print('b')
         self.shape = resnet.resnet18(pretrained=True, dilated=False, deep_base=False, norm_layer=norm_layer)
         self.jpu = JPU([512, 1024, 2048], width=512, norm_layer=norm_layer, up_kwargs=up_kwargs) if jpu else None
 
-    def base_forward(self, x):
-        x = self.pretrained.conv1(x)
+    def base_forward(self, inp):
+        x = self.pretrained.conv1(inp)
         x = self.pretrained.bn1(x)
         x = self.pretrained.relu(x)
         x = self.pretrained.maxpool(x)
@@ -66,8 +64,9 @@ class BaseNet(nn.Module):
         c3 = self.pretrained.layer3(c2)
         c4 = self.pretrained.layer4(c3)
 
-        x_size = x.size()
-        im_arr = x.cpu().numpy().transpose((0,2,3,1)).astype(np.uint8)
+        x_size = inp.size()
+        im_arr = inp.cpu().numpy().transpose((0,2,3,1)).astype(np.uint8)
+        # im_arr = inp.detach().numpy().transpose((0,2,3,1)).astype(np.uint8)
         canny = np.zeros((x_size[0], 1, x_size[2], x_size[3]))
         for i in range(x_size[0]):
             canny[i] = cv2.Canny(im_arr[i],10,100)
