@@ -6,13 +6,14 @@
 
 import math
 import numpy as np
-
+import cv2
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
 from torch.nn.parallel.scatter_gather import scatter
 from torch.nn.parallel.data_parallel import DataParallel
+from torch.autograd import Variable
 
 from ..nn import JPU
 from .. import dilated as resnet
