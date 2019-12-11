@@ -72,7 +72,7 @@ class BaseNet(nn.Module):
             canny[i] = cv2.Canny(im_arr[i],10,100)
         canny = torch.from_numpy(canny).cuda().float()
 
-        x_grad = self.shape.conv1(x_grad)
+        x_grad = self.shape.conv1(canny)
         x_grad = self.shape.bn1(x_grad)
         x_grad = self.shape.relu(x_grad)
         x_grad = self.shape.maxpool(x_grad)
