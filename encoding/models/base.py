@@ -65,6 +65,13 @@ class BaseNet(nn.Module):
         c3 = self.pretrained.layer3(c2)
         c4 = self.pretrained.layer4(c3)
 
+        x_size = x.size()
+        im_arr = x.cpu().numpy().transpose((0,2,3,1)).astype(np.uint8)
+        canny = np.zeros((x_size[0], 1, x_size[2], x_size[3]))
+        for i in range(x_size[0]):
+            canny[i] = cv2.Canny(im_arr[i],10,100)
+        canny = torch.from_numpy(canny).cuda().float()
+
         x_grad = self.shape.conv1(x_grad)
         x_grad = self.shape.bn1(x_grad)
         x_grad = self.shape.relu(x_grad)
