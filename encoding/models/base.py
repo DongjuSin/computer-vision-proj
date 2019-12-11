@@ -35,6 +35,7 @@ class BaseNet(nn.Module):
         self.base_size = base_size
         self.crop_size = crop_size
         # copying modules from pretrained models
+        print('a')
         if backbone == 'resnet50':
             self.pretrained = resnet.resnet50(pretrained=True, dilated=dilated,
                                               norm_layer=norm_layer, root=root)
@@ -50,6 +51,7 @@ class BaseNet(nn.Module):
         self._up_kwargs = up_kwargs
         self.backbone = backbone
         # shape stream
+        print('b')
         self.shape = resnet.resnet18(pretrained=True, dilated=False, deep_base=False, norm_layer=norm_layer)
         self.jpu = JPU([512, 1024, 2048], width=512, norm_layer=norm_layer, up_kwargs=up_kwargs) if jpu else None
 
