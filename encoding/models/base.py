@@ -52,7 +52,8 @@ class BaseNet(nn.Module):
         self.backbone = backbone
         # shape stream
         # self.shape = resnet.resnet18(pretrained=True, dilated=False, deep_base=False, norm_layer=norm_layer)
-        self.shape = resnet.resnet34(pretrained=True, dilated=False, deep_base=False, norm_layer=norm_layer)
+        # self.shape = resnet.resnet34(pretrained=True, dilated=False, deep_base=False, norm_layer=norm_layer)
+
         self.jpu = JPU([512, 1024, 2048], width=512, norm_layer=norm_layer, up_kwargs=up_kwargs) if jpu else None
 
     def base_forward(self, inp):
@@ -91,6 +92,10 @@ class BaseNet(nn.Module):
         n4 = torch.cat([c4, s4], dim=1)
 
         ## modified
+        print(n1.shape)
+        print(n2.shape)
+        print(n3.shape)
+        print(n4.shape)
         if self.jpu:
             return self.jpu(n1, n2, n3, n4)
         else:
