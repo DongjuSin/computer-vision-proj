@@ -83,6 +83,8 @@ class BaseNet(nn.Module):
         s3 = self.shape.layer1(s2)
         s4 = self.shape.layer1(s3)
 
+        print(c2.shape)
+        print(s2.shape)
         n1 = torch.cat([c1, s1], dim=1)
         n2 = torch.cat([c2, s2], dim=1)
         n3 = torch.cat([c3, s3], dim=1)
