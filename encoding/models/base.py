@@ -53,6 +53,7 @@ class BaseNet(nn.Module):
         # shape stream
         # self.shape = resnet.resnet18(pretrained=True, dilated=False, deep_base=False, norm_layer=norm_layer)
         # self.shape = resnet.resnet34(pretrained=True, dilated=False, deep_base=False, norm_layer=norm_layer)
+        self.shape = resnet.resnet50(pretrained=True, dilated=dilated, norm_layer=norm_layer, root=root)
 
         self.jpu = JPU([512, 1024, 2048], width=512, norm_layer=norm_layer, up_kwargs=up_kwargs) if jpu else None
 
