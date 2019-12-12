@@ -85,18 +85,12 @@ class BaseNet(nn.Module):
         s3 = self.shape.layer3(s2)
         s4 = self.shape.layer4(s3)
 
-        print(c2.shape)
-        print(s2.shape)
         n1 = torch.cat([c1, s1], dim=1)
         n2 = torch.cat([c2, s2], dim=1)
         n3 = torch.cat([c3, s3], dim=1)
         n4 = torch.cat([c4, s4], dim=1)
 
         ## modified
-        print(n1.shape)
-        print(n2.shape)
-        print(n3.shape)
-        print(n4.shape)
         if self.jpu:
             return self.jpu(n1, n2, n3, n4)
         else:
