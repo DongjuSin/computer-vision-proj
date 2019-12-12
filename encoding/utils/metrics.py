@@ -94,6 +94,8 @@ def batch_intersection_union(output, target, nclass):
     predict = predict.cpu().numpy().astype('int64') + 1
     target = target.cpu().numpy().astype('int64') + 1
 
+    print(predict.shape)
+    print(target.shape)
     predict = predict * (target > 0).astype(predict.dtype)
     intersection = predict * (predict == target)
     # areas of intersection and union
